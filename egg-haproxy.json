@@ -1,0 +1,152 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED FOR PTERODACTYL PANEL",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": "https://raw.githubusercontent.com/apple050620312/HAProxyPterodactyl/main/egg-haproxy.json"
+    },
+    "exported_at": "2026-09-13T18:45:00+08:00",
+    "name": "HAProxy",
+    "author": "apple050620312@gmail.com",
+    "description": "HAProxy 3.2 LTS for Pterodactyl. Generates a ready-to-run TCP or HTTP proxy configuration from a small set of egg variables.",
+    "features": null,
+    "docker_images": {
+        "HAProxy 3.2 LTS": "ghcr.io/apple050620312/haproxy-pterodactyl:latest"
+    },
+    "file_denylist": [],
+    "startup": "/usr/local/bin/pterodactyl-haproxy",
+    "config": {
+        "files": "{}",
+        "startup": "{\"done\": \"[HAProxy] Proxy ready\"}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/bash\nset -Eeuo pipefail\nmkdir -p /mnt/server\necho 'HAProxy runtime and automatic configuration are provided by the Docker image.'\n",
+            "container": "ghcr.io/pterodactyl/installers:debian",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Backend host",
+            "description": "Destination hostname or IP address reachable from the Wings Docker network.",
+            "env_variable": "BACKEND_HOST",
+            "default_value": "127.0.0.1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:253|regex:/^[A-Za-z0-9._:-]+$/",
+            "field_type": "text"
+        },
+        {
+            "name": "Backend port",
+            "description": "Destination service port.",
+            "env_variable": "BACKEND_PORT",
+            "default_value": "25565",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:1,65535",
+            "field_type": "text"
+        },
+        {
+            "name": "Proxy mode",
+            "description": "Use tcp for games and arbitrary TCP traffic, or http for an HTTP reverse proxy.",
+            "env_variable": "PROXY_MODE",
+            "default_value": "tcp",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:tcp,http",
+            "field_type": "text"
+        },
+        {
+            "name": "Health check",
+            "description": "Continuously check whether the backend accepts connections.",
+            "env_variable": "HEALTH_CHECK",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
+            "field_type": "text"
+        },
+        {
+            "name": "Backend TLS",
+            "description": "Encrypt the connection from HAProxy to the backend. Certificate verification is disabled for compatibility with private services.",
+            "env_variable": "BACKEND_TLS",
+            "default_value": "false",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
+            "field_type": "text"
+        },
+        {
+            "name": "PROXY protocol",
+            "description": "Send no PROXY header, PROXY protocol v1, or PROXY protocol v2. The backend must explicitly support the selected protocol.",
+            "env_variable": "PROXY_PROTOCOL",
+            "default_value": "none",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:none,v1,v2",
+            "field_type": "text"
+        },
+        {
+            "name": "Maximum connections",
+            "description": "Global simultaneous connection limit.",
+            "env_variable": "MAX_CONNECTIONS",
+            "default_value": "2000",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:1,1000000",
+            "field_type": "text"
+        },
+        {
+            "name": "Connect timeout (ms)",
+            "description": "Maximum time to establish a backend connection, in milliseconds.",
+            "env_variable": "CONNECT_TIMEOUT",
+            "default_value": "5000",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:1,86400000",
+            "field_type": "text"
+        },
+        {
+            "name": "Client timeout (ms)",
+            "description": "Maximum client inactivity time, in milliseconds.",
+            "env_variable": "CLIENT_TIMEOUT",
+            "default_value": "60000",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:1,86400000",
+            "field_type": "text"
+        },
+        {
+            "name": "Server timeout (ms)",
+            "description": "Maximum backend inactivity time, in milliseconds.",
+            "env_variable": "SERVER_TIMEOUT",
+            "default_value": "60000",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:1,86400000",
+            "field_type": "text"
+        },
+        {
+            "name": "Tunnel timeout (ms)",
+            "description": "Long-lived TCP tunnel inactivity timeout, in milliseconds.",
+            "env_variable": "TUNNEL_TIMEOUT",
+            "default_value": "3600000",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|between:1,86400000",
+            "field_type": "text"
+        },
+        {
+            "name": "Configuration mode",
+            "description": "generated rewrites haproxy.cfg from these variables on every start. custom preserves and runs your own haproxy.cfg.",
+            "env_variable": "CONFIG_MODE",
+            "default_value": "generated",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:generated,custom",
+            "field_type": "text"
+        }
+    ]
+}
