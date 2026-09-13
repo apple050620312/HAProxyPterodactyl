@@ -4,6 +4,7 @@ LABEL org.opencontainers.image.source="https://github.com/apple050620312/HAProxy
 LABEL org.opencontainers.image.description="HAProxy runtime image for Pterodactyl"
 LABEL org.opencontainers.image.licenses="MIT"
 
+USER root
 RUN useradd --create-home --home-dir /home/container --shell /bin/bash container
 
 COPY --chmod=755 docker/pterodactyl-entrypoint.sh /usr/local/bin/pterodactyl-entrypoint
